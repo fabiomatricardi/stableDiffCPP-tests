@@ -1,0 +1,225 @@
+USING STABLE-DIFfusion-Cpp-PYTHON
+https://github.com/william-murray1204/stable-diffusion-cpp-python/blob/main/README.md
+--------------------------------------------------------------------------------------
+
+➜ python -m venv venv
+➜ .\venv\Scripts\activate
+(venv) ➜ SDcpp ⚡                                                                                                      ➜ pip install stable-diffusion-cpp-python
+
+Download SD1.5
+https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors?download=true
+
+## to do yet
+stable-diffusion-cpp-python convert the models on loading
+to avoid doing this everytime:
+
+conver safetensors/checkpoints to gguf
+https://github.com/leejet/stable-diffusion.cpp#convert-to-gguf
+Quantization methods: https://github.com/leejet/stable-diffusion.cpp#quantization
+
+img2img
+https://github.com/darkhemic/stable-diffusion-cpuonly
+
+## Use with Lora 
+https://github.com/william-murray1204/stable-diffusion-cpp-python/blob/main/README.md#with-lora
+✅1. find where these loras are  CIVITA.AI
+2. understand what files to donwload
+3. make for a use case
+###still unknown
+✅Make sure you are aware on the usage instructions of LORA
+❌Sampler: DPM++ SDE Karras (Recommended for best quality, you may try other samplers)
+❌CFG Scale : 5 to 10
+✅LORA weight for txt2img: reccomended 0.3-0.7.
+
+Test inference
+You can specify the directory where the lora weights are stored via lora_model_dir. If not specified, the default is the current working directory.
+
+LoRA is specified via prompt, just like stable-diffusion-webui.
+
+Here's a simple example:
+```
+>>> from stable_diffusion_cpp import StableDiffusion
+>>> stable_diffusion = StableDiffusion(
+      model_path="../models/v1-5-pruned-emaonly.safetensors",
+      lora_model_dir="../models/",
+)
+>>> output = stable_diffusion.txt_to_img(
+      "a lovely cat<lora:marblesh:1>", # Prompt
+)
+```
+
+My final PYTHON
+-------
+```
+from stable_diffusion_cpp import StableDiffusion
+import random
+import string
+import sys
+import datetime
+from PIL import Image
+
+def genRANstring(n):
+    """
+    n = int number of char to randomize
+    """
+    N = n
+    res = ''.join(random.choices(string.ascii_uppercase +
+                                string.digits, k=N))
+    return res
+
+start = datetime.datetime.now()
+print('1. Loading pipeline')
+
+stable_diffusion = StableDiffusion(
+      model_path="model/v1-5-pruned-emaonly.safetensors",
+      wtype="q5_0", # Weight type (options: default, f32, f16, q4_0, q4_1, q5_0, q5_1, q8_0)
+      # seed=1337, # Uncomment to set a specific seed
+)
+delta = datetime.datetime.now() - start
+print(f'Completed in {delta}')
+
+#prompt = "Self-portrait cartoon style, a beautiful cyborg with golden hair, 8k"
+posprompt = "Photography, futuristic car, red car, ((skidding on a bend)), drifting in a snowy road, turning snow road, drift smoke, powerful drift, sport car, wonderful, frozen lake background, realistic, photo, 4k, professional photography, epic, intense, 4k, beautiful"
+negprompt = "bad, ugly, deformed, out of frame, watermark, text, written text, signature, solo, far target, bad target, far zoom"
+print('2. starting image genration...')
+print("\033[91;1m")  #red
+print(f'POSITIVE PROMPT: {posprompt}\nNEGATIVE PROMPT: {negprompt}')
+print("\033[1;30m")  #dark grey
+start = datetime.datetime.now()
+output = stable_diffusion.txt_to_img(        
+    prompt =  posprompt,   #"a lovely cat", # Prompt
+    negative_prompt = negprompt,    
+    sample_steps=20
+)
+delta = datetime.datetime.now() - start
+fname = f"image-{genRANstring(5)}.png"
+print("\033[92;1m")
+print(f'Completed in {delta}')
+print(f'3. Same image to file {fname}...')
+output[0].save(fname)
+print('Image saved')
+output[0].show()
+```
+
+## Parameters for loading and inference.
+
+### Text-2-Image
+```
+    # ============================================
+    # Text to Image
+    # ============================================
+
+    def txt_to_img(
+        self,
+        prompt: str,
+        negative_prompt: str = "",
+        clip_skip: int = -1,
+        cfg_scale: float = 7.0,
+        width: int = 512,
+        height: int = 512,
+        sample_method: int = sd_cpp.SampleMethod.EULER_A,
+        sample_steps: int = 20,
+        seed: int = 42,
+        batch_count: int = 1,
+        control_cond: Optional[Union[Image.Image, str]] = None,
+        control_strength: float = 0.9,
+        style_strength: float = 20.0,
+        normalize_input: bool = False,
+        input_id_images_path: str = "",
+        upscale_factor: int = 1,
+        progress_callback: Optional[Callable] = None,
+    ) -> List[Image.Image]:
+        """Generate images from a text prompt.
+
+        Args:
+            prompt: The prompt to render.
+            negative_prompt: The negative prompt.
+            clip_skip: Ignore last layers of CLIP network; 1 ignores none, 2 ignores one layer (default: -1).
+            cfg_scale: Unconditional guidance scale: (default: 7.0).
+            width: Image height, in pixel space (default: 512).
+            height: Image width, in pixel space (default: 512).
+            sample_method: Sampling method (default: "euler_a").
+            sample_steps: Number of sample steps (default: 20).
+            seed: RNG seed (default: 42, use random seed for < 0).
+            batch_count: Number of images to generate.
+            control_cond: A control condition image path or Pillow Image. (default: None).
+            control_strength: Strength to apply Control Net (default: 0.9).
+            style_strength: Strength for keeping input identity (default: 20%).
+            normalize_input: Normalize PHOTOMAKER input id images.
+            input_id_images_path: Path to PHOTOMAKER input id images dir.
+            upscale_factor: The image upscaling factor (default: 1).
+            progress_callback: Callback function to call on each step end.
+
+        Returns:
+            A list of Pillow Images."""
+```
+
+### Loading the model
+```
+class StableDiffusion:
+    """High-level Python wrapper for a stable-diffusion.cpp model."""
+
+    def __init__(
+        self,
+        model_path: str = "",
+        vae_path: str = "",
+        taesd_path: str = "",
+        control_net_path: str = "",
+        upscaler_path: str = "",
+        lora_model_dir: str = "",
+        embed_dir: str = "",
+        stacked_id_embed_dir: str = "",
+        vae_decode_only: bool = False,
+        vae_tiling: bool = False,
+        free_params_immediately: bool = False,
+        n_threads: int = -1,
+        wtype: str = "default",
+        rng_type: int = sd_cpp.RNGType.STD_DEFAULT_RNG,
+        schedule: int = sd_cpp.Schedule.DISCRETE,
+        keep_clip_on_cpu: bool = False,
+        keep_control_net_cpu: bool = False,
+        keep_vae_on_cpu: bool = False,
+        verbose: bool = True,
+    ):
+        """Load a stable-diffusion.cpp model from `model_path`.
+
+        Examples:
+            Basic usage
+
+            >>> import stable_diffusion_cpp
+            >>> model = stable_diffusion_cpp.StableDiffusion(
+            ...     model_path="path/to/model",
+            ... )
+            >>> images = stable_diffusion.txt_to_img(prompt="a lovely cat")
+            >>> images[0].save("output.png")
+
+        Args:
+            model_path: Path to the model.
+            vae_path: Path to the vae.
+            taesd_path: Path to the taesd.
+            control_net_path: Path to the control net.
+            upscaler_path: Path to esrgan model (Upscale images after generation).
+            lora_model_dir: Lora model directory.
+            embed_dir: Path to embeddings.
+            stacked_id_embed_dir: Path to PHOTOMAKER stacked id embeddings.
+            vae_decode_only: Process vae in decode only mode.
+            vae_tiling: Process vae in tiles to reduce memory usage.
+            free_params_immediately: Free parameters immediately after use.
+            n_threads: Number of threads to use for generation.
+            wtype: The weight type (options: default, f32, f16, q4_0, q4_1, q5_0, q5_1, q8_0) (default: the weight type of the model file).
+            rng_type: RNG (default: cuda).
+            schedule: Denoiser sigma schedule (default: discrete).
+            keep_clip_on_cpu: Keep clip in CPU (for low vram).
+            keep_control_net_cpu: Keep controlnet in CPU (for low vram).
+            keep_vae_on_cpu: Keep vae in CPU (for low vram).
+            verbose: Print verbose output to stderr.
+
+        Raises:
+            ValueError: If a model path does not exist.
+
+        Returns:
+            A Stable Diffusion instance.
+        """
+```
+
+
