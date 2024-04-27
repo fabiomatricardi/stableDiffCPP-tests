@@ -70,6 +70,10 @@ Here few generated images...<br>
 <img src='https://github.com/fabiomatricardi/stableDiffCPP-tests/blob/main/lcm-2-1-steps.png' width=450><br>
 
 
+### variant models
+You can use also variants from SD or SDXL<br>
+for example [TurboVisionXL](https://civitai.com/models/215418?modelVersionId=255474)
+
 For example
 ```
 Disty0/LCM_SoteMix -  https://huggingface.co/Disty0/LCM_SoteMix
