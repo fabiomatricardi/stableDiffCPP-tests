@@ -91,6 +91,8 @@ https://github.com/vladmandic/automatic/blob/master/cli/lcm-convert.py
 
 Further inspirations from [CPUONLY SD](https://github.com/darkhemic/stable-diffusion-cpuonly)
 
+> Automatic1111 features and explanations [here](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features#lora)
+
 ---
 
 ### Where to find Loras
