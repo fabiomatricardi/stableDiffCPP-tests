@@ -23,6 +23,19 @@ Badass Cars
 https://civitai.com/models/54798/badass-cars?modelVersionId=59176
 Trigger Words: ZEEKARS
 
+Future Concept Vehicle Styling｜Automotive Exterior Design
+Futuristic concept car at night, metal flared skeleton walls, sustainable design, orange and dark gray gradient, organically shaped body, electric, clear edges<lora:HTTP_20231128195717-000006:1>
+Trigger Words: FUTURISTIC CONCEPT CAR
+https://civitai.com/api/download/models/302294?type=Model&format=SafeTensor
+
+
+RETROWAVE
+https://civitai.com/models/73249/retrowave
+retrowave. city, road, purple neon lights, car, mountains, (masterpiece,detailed,highres), <lora:retrowave_0.12:0.8>
+Trigger Words: RETROWAVE  ROAD  CAR
+https://civitai.com/api/download/models/77964?type=Model&format=SafeTensor
+
+
 MANAGE IMAGE METADATA
 https://stackoverflow.com/questions/58399070/how-do-i-save-custom-information-to-a-png-image-file-in-python
 
@@ -66,7 +79,7 @@ p1 = f"A beauftiful sunset in the mountains {loras1}, ther is a forest and a lak
 loras2 = '<lora:zeekars:0.8>'
 p2 = f"a 3/4 front view of ((futuristic dark blue lamborghini zeekars)) (with glowing tires), orange glow tires, at the parking lot, {loras2}"
 ##### 5 STEPS ############################################################################
-SampleStps = 5
+SampleStps = 7
 print(f'2. starting image genration with LORAS {loras2} and {SampleStps} SAMPLE STEPS...')
 print("\033[91;1m")  #red
 print(f'POSITIVE PROMPT: {p2}\nNEGATIVE PROMPT: {negprompt}')
