@@ -42,6 +42,11 @@ For the image above I used the following
 ```
 > Image generated in  '0:22:50.471408'
 
+
+### Image-to_Image
+this fantasticlibrary can also be used with image2image pipeline<br>
+<img src='https://github.com/fabiomatricardi/stableDiffCPP-tests/raw/main/img-2-img.png' width=800>
+
 ---
 
 There is not so much informtion. What you need is to be understood from the code
