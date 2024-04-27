@@ -29,6 +29,13 @@ Download SD1.5 [from here](https://huggingface.co/runwayml/stable-diffusion-v1-5
 >  Loras support is included (the picture above is using `retrowave_0.12` and `zeekars`<br>
 >  Read Medium article for full step by step guide
 
+
+### variant models
+You can use also variants from SD or SDXL<br>
+for example [TurboVisionXL](https://civitai.com/models/215418?modelVersionId=255474)
+
+---
+
 For the image above I used the following
 ```
 'ImageName': 'image-DD8UD.png'<br>
@@ -69,10 +76,6 @@ Here few generated images...<br>
 <img src='https://github.com/fabiomatricardi/stableDiffCPP-tests/blob/main/lcm-4steps.png' width=450><br>
 <img src='https://github.com/fabiomatricardi/stableDiffCPP-tests/blob/main/lcm-2-1-steps.png' width=450><br>
 
-
-### variant models
-You can use also variants from SD or SDXL<br>
-for example [TurboVisionXL](https://civitai.com/models/215418?modelVersionId=255474)
 
 For example
 ```
