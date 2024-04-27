@@ -1,9 +1,9 @@
 # PoorGPUguy use StableDiffusion on CPU
 ### AKA super powers of stable-diffusion-cpp-python
-
+Porting to python of the original project [stable-diffusion-cpp](https://github.com/leejet/stable-diffusion.cpp) inspired by Gerganov's llama.cpp
 this is the best I can do... starting from 0.<br>
 But it is not bad right?<br>
-<img src='https://github.com/fabiomatricardi/stableDiffCPP-tests/raw/main/BEST-image-DD8UD.png' width=400>
+<img src='https://github.com/fabiomatricardi/stableDiffCPP-tests/raw/main/repo-banner.png' width=800>
 
 ## Installation
 The only requirement is `stable-diffusion-cpp-python`
@@ -42,6 +42,13 @@ For the image above I used the following
 ```
 > Image generated in  '0:22:50.471408'
 
+---
+
+There is not so much informtion. What you need is to be understood from the code
+- [stable_diffusion.py](https://github.com/william-murray1204/stable-diffusion-cpp-python/blob/main/stable_diffusion_cpp/stable_diffusion.py)
+- [stable_diffusion_cpp.py](https://github.com/william-murray1204/stable-diffusion-cpp-python/blob/main/stable_diffusion_cpp/stable_diffusion_cpp.py)
+- And the entire [folder of inference examples](https://github.com/william-murray1204/stable-diffusion-cpp-python/tree/main/tests)  but they use Low Level API
+
 
 ---
 
@@ -78,6 +85,27 @@ https://github.com/vladmandic/automatic/blob/master/cli/lcm-convert.py
 - [Official paper *Effective Quantization for Diffusion Models on CPUs*](https://arxiv.org/pdf/2311.16133.pdf)
 - [WGET for windows](https://eternallybored.org/misc/wget/)
 - [StableDiffusion1.5 on Hugging Face](https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main)
+- [OpenELM: An Efficient Language Model Family with Open-source Training and Inference Framework](https://arxiv.org/pdf/2404.14619v1)
+- [WebllM Web Assembly](https://webllm.mlc.ai/#chat-demo)
+- [General Tutorial to Generate IMAGES](https://www.geeksforgeeks.org/generate-images-from-text-in-python-stable-diffusion/)
+
+Further inspirations from [CPUONLY SD](https://github.com/darkhemic/stable-diffusion-cpuonly)
+
+---
+
+### Where to find Loras
+
+You have to register, for free, to [Civita.ai](https://civitai.com/)
+
+<img src='https://github.com/fabiomatricardi/stableDiffCPP-tests/blob/main/civitaAI.png' width=450>
+
+And then [search for Lora(s) compatible with SD1.5](https://civitai.com/search/models?baseModel=SD%201.5&modelType=LORA&sortBy=models_v8)
+
+There is also a convenient [Guide to Generation](https://civitai.com/articles/160)
+
+
+
+
 
 
 
